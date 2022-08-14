@@ -11,4 +11,9 @@ public class GreetingController {
 		return "start";
 	}
 
+	@GetMapping("/checkout")
+	public String checkout() {
+		return "checkout";
+	}
+
 }
