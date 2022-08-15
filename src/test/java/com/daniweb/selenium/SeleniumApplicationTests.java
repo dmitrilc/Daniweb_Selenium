@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,6 +51,7 @@ class SeleniumApplicationTests {
 	@Test
 	void automatedTest(){
 		driver.get("http://localhost:" + port);
+		driver.manage().window().setSize(new Dimension(1728, 1015));
 
 		driver.findElement(By.cssSelector("body")).click();
 		driver.findElement(By.cssSelector(".fs-4")).click();
