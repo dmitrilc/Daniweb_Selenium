@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -44,6 +45,20 @@ class SeleniumApplicationTests {
 
 		new WebDriverWait(driver, ofSeconds(5))
 				.until(titleIs("Pricing example · Bootstrap v5.2"));
+	}
+
+	@Test
+	void automatedTest(){
+		driver.get("http://localhost:" + port);
+
+		driver.findElement(By.cssSelector("body")).click();
+		driver.findElement(By.cssSelector(".fs-4")).click();
+		driver.findElement(By.linkText("Features")).click();
+		driver.findElement(By.linkText("Enterprise")).click();
+		driver.findElement(By.linkText("Support")).click();
+		driver.findElement(By.linkText("Pricing")).click();
+		driver.findElement(By.cssSelector(".border-primary .w-100")).click();
+		driver.findElement(By.cssSelector(".btn-outline-primary")).click();
 	}
 
 }
