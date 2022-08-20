@@ -6,15 +6,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static java.time.Duration.ofSeconds;
-import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -41,26 +38,37 @@ class SeleniumApplicationTests {
 	}
 
 	@Test
-	void test() {
+	void click(){
 		driver.get("http://localhost:" + port);
 
-		new WebDriverWait(driver, ofSeconds(5))
-				.until(titleIs("Pricing example · Bootstrap v5.2"));
+		driver.findElement(By.cssSelector(".btn-outline-primary"))
+				.click();
 	}
 
 	@Test
-	void automatedTest(){
+	void clickThenVerify(){
 		driver.get("http://localhost:" + port);
-		driver.manage().window().setSize(new Dimension(1728, 1015));
 
-		driver.findElement(By.cssSelector("body")).click();
-		driver.findElement(By.cssSelector(".fs-4")).click();
-		driver.findElement(By.linkText("Features")).click();
-		driver.findElement(By.linkText("Enterprise")).click();
-		driver.findElement(By.linkText("Support")).click();
-		driver.findElement(By.linkText("Pricing")).click();
-		driver.findElement(By.cssSelector(".border-primary .w-100")).click();
-		driver.findElement(By.cssSelector(".btn-outline-primary")).click();
+		driver.findElement(By.xpath("//button[contains(.,'Get started')]"))
+				.click();
+
+		var title = driver.getTitle();
+		assertEquals(title, "Get Started");
+	}
+
+	@Test
+	void inputText(){
+		driver.get("http://localhost:" + port + "/checkout");
+
+		// More organic if you click on
+		// the text box before sending text
+		driver.findElement(By.id("firstName"))
+				.click();
+
+		driver.findElement(By.id("firstName"))
+				.sendKeys("Anne");
+		driver.findElement(By.id("lastName"))
+				.sendKeys("Chan");
 	}
 
 }
