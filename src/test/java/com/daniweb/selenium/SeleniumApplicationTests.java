@@ -5,11 +5,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -37,7 +41,7 @@ class SeleniumApplicationTests {
 		driver.quit();
 	}
 
-	@Test
+	//@Test
 	void click(){
 		driver.get("http://localhost:" + port);
 
@@ -45,7 +49,7 @@ class SeleniumApplicationTests {
 				.click();
 	}
 
-	@Test
+	//@Test
 	void clickThenVerify(){
 		driver.get("http://localhost:" + port);
 
@@ -56,7 +60,7 @@ class SeleniumApplicationTests {
 		assertEquals(title, "Get Started");
 	}
 
-	@Test
+	//@Test
 	void inputText(){
 		driver.get("http://localhost:" + port + "/checkout");
 
@@ -69,6 +73,154 @@ class SeleniumApplicationTests {
 				.sendKeys("Anne");
 		driver.findElement(By.id("lastName"))
 				.sendKeys("Chan");
+	}
+
+	@Test
+	void automaticScrollDown(){
+		driver.get("http://localhost:" + port + "/start");
+
+		var link = driver.findElement(By.linkText("Last Link"));
+
+		//link.click(); //First way
+
+
+		//Second way
+		new WebDriverWait(driver, Duration.ofSeconds(5))
+				.until(ExpectedConditions.elementToBeClickable(link))
+				.click();
+	}
+
+	@Test
+	void automaticScrollUp(){
+		driver.get("http://localhost:" + port + "/start");
+
+		// Scrolls to end of page
+		new Actions(driver)
+				.sendKeys(Keys.END)
+				//.keyDown(Keys.COMMAND) // For Mac
+				//.sendKeys(Keys.DOWN)
+				.perform();
+
+		var link = driver.findElement(By.linkText("First Link"));
+		link.click();
+
+/*		new WebDriverWait(driver, Duration.ofSeconds(5))
+				.until(ExpectedConditions.elementToBeClickable(link))
+				.click();*/
+	}
+
+	@Test
+	void scrollByDown() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		new Actions(driver)
+				.scrollByAmount(0, 10)
+				.perform();
+
+		new Actions(driver)
+				.scrollByAmount(0, 500)
+				.perform();
+
+		Thread.sleep(5000);
+	}
+
+	@Test
+	void scrollByUp() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		// Scrolls to end of page
+		new Actions(driver)
+				.sendKeys(Keys.END)
+				.perform();
+
+		Thread.sleep(2000);
+
+		new Actions(driver)
+				.scrollByAmount(0, -1000)
+				.perform();
+
+		Thread.sleep(5000);
+	}
+
+	@Test
+	void scrollByXDown() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		new Actions(driver)
+				.scrollByAmount(100, 0)
+				.perform();
+
+		Thread.sleep(1000);
+
+		new Actions(driver)
+				.scrollByAmount(100, 0)
+				.perform();
+
+		Thread.sleep(5000);
+	}
+
+	@Test
+	void scrollByPgDnKey() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		new Actions(driver)
+				.sendKeys(Keys.PAGE_DOWN)
+				.perform();
+
+		Thread.sleep(1000);
+	}
+
+	@Test
+	void scrollByPgUpKey() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		// Scrolls to end of page
+		new Actions(driver)
+				.sendKeys(Keys.END)
+				.perform();
+
+		Thread.sleep(1000);
+
+		new Actions(driver)
+				.sendKeys(Keys.PAGE_UP)
+				.perform();
+
+		Thread.sleep(1000);
+	}
+
+	@Test
+	void scrollByArrowDnKey() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		new Actions(driver)
+				.sendKeys(Keys.ARROW_DOWN);
+
+		Thread.sleep(1000);
+
+		new Actions(driver)
+				.sendKeys(Keys.ARROW_DOWN);
+
+		Thread.sleep(1000);
+	}
+
+	@Test
+	void scrollByArrowUpKey() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/start");
+
+		// Scrolls to end of page
+		new Actions(driver)
+				.sendKeys(Keys.END)
+				.perform();
+
+		new Actions(driver)
+				.sendKeys(Keys.ARROW_UP);
+
+		Thread.sleep(1000);
+
+		new Actions(driver)
+				.sendKeys(Keys.ARROW_UP);
+
+		Thread.sleep(1000);
 	}
 
 }
