@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Waits</title>
+</head>
+<body>
+<script>
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+    await sleep(5000);
+    document.write("<p>Hello World!</p>")
+}
+
+demo();
+</script>
+</body>
+</html>

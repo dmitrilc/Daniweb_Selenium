@@ -75,7 +75,7 @@ class SeleniumApplicationTests {
 				.sendKeys("Chan");
 	}
 
-	@Test
+	//@Test
 	void automaticScrollDown(){
 		driver.get("http://localhost:" + port + "/start");
 
@@ -90,7 +90,7 @@ class SeleniumApplicationTests {
 				.click();
 	}
 
-	@Test
+	//@Test
 	void automaticScrollUp(){
 		driver.get("http://localhost:" + port + "/start");
 
@@ -109,7 +109,7 @@ class SeleniumApplicationTests {
 				.click();*/
 	}
 
-	@Test
+	//@Test
 	void scrollByDown() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -124,7 +124,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(5000);
 	}
 
-	@Test
+	//@Test
 	void scrollByUp() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -142,7 +142,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(5000);
 	}
 
-	@Test
+	//@Test
 	void scrollByXDown() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -159,7 +159,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(5000);
 	}
 
-	@Test
+	//@Test
 	void scrollByPgDnKey() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -170,7 +170,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(1000);
 	}
 
-	@Test
+	//@Test
 	void scrollByPgUpKey() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -188,7 +188,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(1000);
 	}
 
-	@Test
+	//@Test
 	void scrollByArrowDnKey() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -203,7 +203,7 @@ class SeleniumApplicationTests {
 		Thread.sleep(1000);
 	}
 
-	@Test
+	//@Test
 	void scrollByArrowUpKey() throws InterruptedException {
 		driver.get("http://localhost:" + port + "/start");
 
@@ -221,6 +221,49 @@ class SeleniumApplicationTests {
 				.sendKeys(Keys.ARROW_UP);
 
 		Thread.sleep(1000);
+	}
+
+	@Test
+	void explicitWait(){
+		driver.get("http://localhost:" + port + "/waits");
+
+/*		new WebDriverWait(driver, Duration.ofSeconds(4))
+				.until(_d -> driver.findElement(By.cssSelector("p")));*/
+
+		new WebDriverWait(driver, Duration.ofSeconds(6))
+				.until(_d -> driver.findElement(By.cssSelector("p")));
+	}
+
+	@Test
+	void repeatedExplicitWaits(){
+		driver.get("http://localhost:" + port + "/waits");
+
+		new WebDriverWait(driver, Duration.ofSeconds(5))
+				.until(_d -> driver.findElement(By.cssSelector("p")));
+
+		new WebDriverWait(driver, Duration.ofSeconds(5))
+				.until(_d -> driver.findElement(By.cssSelector("a")));
+
+		new WebDriverWait(driver, Duration.ofSeconds(5))
+				.until(_d -> driver.findElement(By.cssSelector("h1")));
+	}
+
+	@Test
+	void shortImplicitWait(){
+		driver.get("http://localhost:" + port + "/waits");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+		var p = driver.findElement(By.cssSelector("p"));
+		var a = driver.findElement(By.cssSelector("a"));
+		var h1 = driver.findElement(By.cssSelector("h1"));
+	}
+
+	@Test
+	void implicitWait(){
+		driver.get("http://localhost:" + port + "/waits");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
+
+		var p = driver.findElement(By.cssSelector("p"));
 	}
 
 }

@@ -16,4 +16,9 @@ public class GreetingController {
 		return "checkout";
 	}
 
+	@GetMapping("/waits")
+	public String waits(){
+		return "waits";
+	}
+
 }
